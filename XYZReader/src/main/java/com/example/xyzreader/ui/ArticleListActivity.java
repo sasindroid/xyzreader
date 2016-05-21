@@ -8,17 +8,16 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
-import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
@@ -34,6 +33,8 @@ import com.example.xyzreader.data.UpdaterService;
  */
 public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
+
+    public static final String TAG = "ArticleListActivity";
 
     private Toolbar mToolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -55,6 +56,48 @@ public class ArticleListActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             refresh();
         }
+
+
+//        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbar_layout);
+////        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+//        collapsingToolbarLayout.setTitle("xyzreader");
+//        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent)); // android.R.color.transparent
+//        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.white));
+//
+//
+
+//        collapsingToolbarLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//
+//            @Override
+//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                Log.d(TAG, "onLayoutChange TOP: " + top + " - " + oldTop);
+//            }
+//        });
+//
+//
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+////                    collapsingToolbarLayout.setTitle("Title");
+//                    toolbar.setTitle("");
+//                    isShow = true;
+//                } else if(isShow) {
+//                    collapsingToolbarLayout.setTitle("");
+//                    toolbar.setTitle("ToolbarGone");
+//                    isShow = false;
+//                }
+//            }
+//        });
+
+
     }
 
     private void refresh() {
@@ -132,7 +175,16 @@ public class ArticleListActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                                    ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))
+                    );
+//                            , ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,
+//                                    ((ImageView) view.findViewById(R.id.thumbnail)),
+//                                    getResources().getString(R.string.transition_photo)).toBundle());
+
+
+//                    MainActivity.this.startActivity(intent,
+//                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, view,
+//                                    view.getTransitionName()).toBundle());
                 }
             });
             return vh;
@@ -146,9 +198,8 @@ public class ArticleListActivity extends AppCompatActivity implements
                     DateUtils.getRelativeTimeSpanString(
                             mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
                             System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                            DateUtils.FORMAT_ABBREV_ALL).toString()
-                            + " by "
-                            + mCursor.getString(ArticleLoader.Query.AUTHOR));
+                            DateUtils.FORMAT_ABBREV_ALL).toString());
+            holder.article_author.setText(mCursor.getString(ArticleLoader.Query.AUTHOR));
             holder.thumbnailView.setImageUrl(
                     mCursor.getString(ArticleLoader.Query.THUMB_URL),
                     ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
@@ -165,12 +216,14 @@ public class ArticleListActivity extends AppCompatActivity implements
         public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;
+        public TextView article_author;
 
         public ViewHolder(View view) {
             super(view);
             thumbnailView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
             titleView = (TextView) view.findViewById(R.id.article_title);
             subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+            article_author = (TextView) view.findViewById(R.id.article_author);
         }
     }
 }
