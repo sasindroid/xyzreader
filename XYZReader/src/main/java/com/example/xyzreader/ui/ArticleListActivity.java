@@ -8,7 +8,10 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
@@ -58,12 +60,12 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
 
 
-//        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbar_layout);
-////        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-//        collapsingToolbarLayout.setTitle("xyzreader");
-//        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent)); // android.R.color.transparent
-//        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.white));
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbar_layout);
+//        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        collapsingToolbarLayout.setTitle("xyzreader");
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent)); // android.R.color.transparent
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.white));
 //
 //
 
@@ -174,17 +176,20 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    // For Content Transition
+//                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this).toBundle();
+//
+//                    startActivity(new Intent(Intent.ACTION_VIEW,
+//                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))), bundle);
+
+
+                    // For Content + SharedElement Transition
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,
+                            view, getResources().getString(R.string.transition_photo)).toBundle();
+
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                                    ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))
-                    );
-//                            , ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,
-//                                    ((ImageView) view.findViewById(R.id.thumbnail)),
-//                                    getResources().getString(R.string.transition_photo)).toBundle());
-
-
-//                    MainActivity.this.startActivity(intent,
-//                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, view,
-//                                    view.getTransitionName()).toBundle());
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))), bundle);
                 }
             });
             return vh;
