@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
@@ -59,46 +59,10 @@ public class ArticleListActivity extends AppCompatActivity implements
             refresh();
         }
 
-
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbar_layout);
-//        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         collapsingToolbarLayout.setTitle("xyzreader");
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent)); // android.R.color.transparent
         collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.white));
-//
-//
-
-//        collapsingToolbarLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-//
-//            @Override
-//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-//                Log.d(TAG, "onLayoutChange TOP: " + top + " - " + oldTop);
-//            }
-//        });
-//
-//
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            boolean isShow = false;
-//            int scrollRange = -1;
-//
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (scrollRange == -1) {
-//                    scrollRange = appBarLayout.getTotalScrollRange();
-//                }
-//                if (scrollRange + verticalOffset == 0) {
-////                    collapsingToolbarLayout.setTitle("Title");
-//                    toolbar.setTitle("");
-//                    isShow = true;
-//                } else if(isShow) {
-//                    collapsingToolbarLayout.setTitle("");
-//                    toolbar.setTitle("ToolbarGone");
-//                    isShow = false;
-//                }
-//            }
-//        });
-
 
     }
 
@@ -179,10 +143,6 @@ public class ArticleListActivity extends AppCompatActivity implements
 
                     // For Content Transition
 //                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this).toBundle();
-//
-//                    startActivity(new Intent(Intent.ACTION_VIEW,
-//                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))), bundle);
-
 
                     // For Content + SharedElement Transition
                     Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,

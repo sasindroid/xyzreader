@@ -4,8 +4,7 @@
     <style name="Theme.Bacon.Home">
 
         <item name="android:windowExitTransition">@transition/grid_exit_explode_transition</item>
-        <item name="android:windowReenterTransition">@transition/grid_reenter_slide_transition
-        </item>
+        <item name="android:windowReenterTransition">@transition/grid_reenter_slide_transition</item>
     </style>
 
     <style name="Theme.Bacon.Detail">
